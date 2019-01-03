@@ -4,7 +4,7 @@ import AVFoundation
 import Foundation
 
 // MARK: Start of actual program execution
-let videoFilePath = playgroundSharedDataDirectory.appendingPathComponent("solidWhiteRight.mp4")
+guard let videoFilePath = Bundle.main.url(forResource: "solidWhiteRight", withExtension: ".mp4") else { fatalError("Couldn't find test footage.")}
 
 let video = Video(videoAt: videoFilePath)
 
@@ -148,7 +148,7 @@ var currentStepIndicatorLayer: CAShapeLayer = {
     path.addLine(to: CGPoint(x: 5, y: 15))
     path.addLine(to: CGPoint(x: 10, y: 10))
     path.addLine(to: CGPoint(x: 10, y: 0))
-    path.addLine(to: CGPoint(x: 5, y: 0))
+    path.addLine(to: CGPoint(x: 0, y: 0))
     
     let layer = CAShapeLayer()
     layer.path = path.cgPath
