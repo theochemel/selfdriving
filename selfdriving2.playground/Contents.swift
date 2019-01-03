@@ -91,82 +91,10 @@ var shadowView: UIView = {
 liveView.addSubview(shadowView)
 
 var pipelineView: UIView = {
-    let view = UIView(frame: CGRect(x: 20, y: liveView.bounds.height - 126, width: liveView.bounds.width - 40, height: 100))
+    let view = UIView(frame: CGRect(x: 10.0, y: imageView.frame.maxY + 10.0, width: liveView.frame.width - 20.0, height: (liveView.frame.height - imageView.frame.height) - 44))
+    view.backgroundColor = .red
     return view
 }()
-
-var pipelineLine: CAShapeLayer = {
-    let path = UIBezierPath()
-    path.move(to: CGPoint(x: 40.0, y: pipelineView.bounds.height / 2))
-    path.addLine(to: CGPoint(x: pipelineView.bounds.width - 40, y: pipelineView.bounds.height / 2))
-    
-    let layer = CAShapeLayer()
-    layer.path = path.cgPath
-    layer.strokeColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0).cgColor
-    layer.lineWidth = 2.0
-    
-    return layer
-}()
-
-pipelineView.layer.addSublayer(pipelineLine)
-
-let spacing = (pipelineView.bounds.width - 80) / CGFloat(pipeline.count - 1)
-
-for x in 0 ... (pipeline.count - 1) {
-    var pipelineDot: CAShapeLayer = {
-        let path = UIBezierPath(ovalIn: CGRect(x: spacing * CGFloat(x) + 38, y: pipelineView.bounds.midY - 4, width: 8, height: 8))
-        
-        let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.fillColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0).cgColor
-        
-        return layer
-    }()
-    
-    pipelineView.layer.addSublayer(pipelineDot)
-    
-    var stepLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: spacing * CGFloat(x) + 37, y: pipelineView.bounds.midY + 20, width: 50, height: 12))
-        label.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 3.5)
-        label.font = label.font.withSize(10)
-        label.text = pipeline[x].shortName
-        return label
-    }()
-    pipelineView.addSubview(stepLabel)
-}
-
-var currentStepIndicator: UIView = {
-    let view = UIView(frame: CGRect(x: 37, y: 30, width: 10, height: 15))
-    view.backgroundColor = .clear
-    return view
-}()
-
-var currentStepIndicatorLayer: CAShapeLayer = {
-    let path = UIBezierPath()
-    path.move(to: CGPoint(x: 0, y: 0))
-    path.addLine(to: CGPoint(x: 0, y: 10))
-    path.addLine(to: CGPoint(x: 5, y: 15))
-    path.addLine(to: CGPoint(x: 10, y: 10))
-    path.addLine(to: CGPoint(x: 10, y: 0))
-    path.addLine(to: CGPoint(x: 5, y: 0))
-    
-    let layer = CAShapeLayer()
-    layer.path = path.cgPath
-    layer.fillColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0).cgColor
-    return layer
-}()
-
-var currentStepLabel: UILabel = {
-    let label = UILabel(frame: CGRect(x: -7, y: 6, width: 100, height: 20))
-    label.text = "Get Next Frame"
-    label.textAlignment = .center
-    label.font = label.font.withSize(10.0)
-    return label
-}()
-
-currentStepIndicator.layer.addSublayer(currentStepIndicatorLayer)
-pipelineView.addSubview(currentStepIndicator)
-pipelineView.addSubview(currentStepLabel)
 
 liveView.addSubview(pipelineView)
 
@@ -178,6 +106,9 @@ var pipelineIndex = 0
 
 var frameIndex = 0
 
+let detailsButtonTarget = ActionTarget {
+    print("Details button pressed")
+}
 
 let nextButtonTarget = ActionTarget {
     print("Next button pressed")
@@ -186,28 +117,10 @@ let nextButtonTarget = ActionTarget {
         pipelineIndex += 1
         currentStep = pipeline[pipelineIndex]
         
-        UIView.animate(withDuration: 0.5, animations: {
-            currentStepIndicator.frame.origin.x += (pipelineView.bounds.width - 80) / CGFloat(pipeline.count - 1)
-            
-                currentStepLabel.frame.origin.x += (pipelineView.bounds.width - 80) / CGFloat(pipeline.count - 1)
-        })
-        UIView.transition(with: currentStepLabel, duration: 0.5, options: [], animations: {
-                        currentStepLabel.text = pipeline[pipelineIndex].name
-        }, completion: nil)
     } else {
         currentStep = pipeline[0]
         pipelineIndex = 0
         frameIndex += 1
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            currentStepIndicator.frame.origin.x = 37
-            
-            currentStepLabel.frame.origin.x = -7
-        })
-        
-        UIView.transition(with: currentStepLabel, duration: 0.5, options: [], animations: {
-            currentStepLabel.text = pipeline[pipelineIndex].name
-        }, completion: nil)
     }
     
     if currentStep.name == "Get next frame" {
@@ -223,9 +136,28 @@ let nextButtonTarget = ActionTarget {
     
 }
 
+var buttonsView: UIView = {
+    let view = UIView(frame: CGRect(x: liveView.frame.width / 2 - 64, y: liveView.frame.height - 24, width: 128, height: 15))
+    return view
+}()
+
+liveView.addSubview(buttonsView)
+
+var detailsButton: UIButton = {
+    let button = UIButton(frame: CGRect(x: 0, y: 0.0, width: 60, height: 15))
+    button.setTitle("Details", for: .normal)
+    button.titleLabel?.font = button.titleLabel?.font.withSize(10.0)
+    button.backgroundColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
+    button.setTitleColor(.white, for: .normal)
+    button.layer.cornerRadius = 5.0
+    button.addTarget(detailsButtonTarget, action: #selector(ActionTarget.action), for: .touchUpInside)
+    return button
+}()
+
+buttonsView.addSubview(detailsButton)
 
 var nextButton: UIButton = {
-    let button = UIButton(frame: CGRect(x: liveView.frame.width / 2 - 30, y: liveView.frame.height - 24, width: 60, height: 15))
+    let button = UIButton(frame: CGRect(x: buttonsView.bounds.width / 2 + 4, y: 0.0, width: 60, height: 15))
     button.setTitle("Next", for: .normal)
     button.titleLabel?.font = button.titleLabel?.font.withSize(10.0)
     button.backgroundColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
@@ -235,7 +167,7 @@ var nextButton: UIButton = {
     return button
 }()
 
-liveView.addSubview(nextButton)
+buttonsView.addSubview(nextButton)
 
 var frame = video.getFrame(0)
 imageView.image = UIImage(cgImage: frame.image)
