@@ -2,7 +2,7 @@ import Foundation
 
 
 // MARK: Function for converting a frame to a single-channel grayscale image.
-// Not properly converting to grayscale! Just taking the first (red?) value of each pixel. Works ok.
+// Not properly converting to grayscale! Just taking the first (red?) value of each pixel. Works ok, and is nice and fast.
 public func convertToGrayscale(_ frame: Frame) -> Frame {
     
     guard let newImageData = CFDataCreateMutable(nil, CFDataGetLength(frame.data)) else { fatalError("Couldn't create new image data") }
