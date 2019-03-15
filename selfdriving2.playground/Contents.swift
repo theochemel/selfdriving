@@ -9,7 +9,7 @@ guard let videoFilePath = Bundle.main.url(forResource: "solidWhiteRight", withEx
 let video = Video(videoAt: videoFilePath)
 
 var liveView: UIView = {
-    let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 630, height: 300))
+    let view = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 760, height: 500))
     view.clipsToBounds = false
     view.backgroundColor = .white
     view.translatesAutoresizingMaskIntoConstraints = true

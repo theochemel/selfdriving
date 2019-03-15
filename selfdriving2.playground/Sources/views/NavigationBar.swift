@@ -15,6 +15,10 @@ public class NavigationBar: UIView {
     
     var currentStepNameLabel: UILabel!
     
+    var previousButtonContainerView: UIView!
+    
+    var nextButtonContainerView: UIView!
+    
     public init(forPipeline pipeline: [PipelineElement]) {
         
         self.pipeline = pipeline
@@ -25,7 +29,7 @@ public class NavigationBar: UIView {
         
         backgroundColor = UIColor(red: 54/255, green: 54/255, blue: 54/255, alpha: 1.0)
         
-        let previousButtonContainerView: UIView = {
+        previousButtonContainerView = {
             let view = UIView()
             view.backgroundColor = .clear
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +99,7 @@ public class NavigationBar: UIView {
             previousStepNameLabel.heightAnchor.constraint(equalToConstant: 10.0),
         ])
         
-        let nextButtonContainerView: UIView = {
+        nextButtonContainerView = {
             let view = UIView()
             view.backgroundColor = .clear
             view.translatesAutoresizingMaskIntoConstraints = false
@@ -193,7 +197,9 @@ public class NavigationBar: UIView {
     func update() {
         currentStepNameLabel.text = pipeline[currentStep].name
         previousStepNameLabel.text = currentStep > 0 ? pipeline[currentStep - 1].name : "------"
+        previousButtonContainerView.alpha = currentStep > 0 ? 1.0 : 0.4
         nextStepNameLabel.text = currentStep < (pipeline.count - 1) ? pipeline[currentStep + 1].name : "------"
+        nextButtonContainerView.alpha = currentStep < (pipeline.count - 1) ? 1.0 : 0.4
     }
     
     @objc func didPressPrevious() {
