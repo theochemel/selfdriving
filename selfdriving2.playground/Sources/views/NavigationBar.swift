@@ -5,7 +5,7 @@ public class NavigationBar: UIView {
     
     weak var delegate: NavigationBarDelegate?
     
-    var currentStep: Int = 1
+    var currentStep: Int = 0
     
     var pipeline: [PipelineElement]
     
@@ -28,6 +28,11 @@ public class NavigationBar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         backgroundColor = UIColor(red: 54/255, green: 54/255, blue: 54/255, alpha: 1.0)
+        
+//        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowOffset = CGSize(width: 0, height: 1)
+//        layer.shadowRadius = 1
+//        layer.shadowOpacity = 0.9
         
         previousButtonContainerView = {
             let view = UIView()
@@ -202,27 +207,24 @@ public class NavigationBar: UIView {
         nextButtonContainerView.alpha = currentStep < (pipeline.count - 1) ? 1.0 : 0.4
     }
     
-    @objc func didPressPrevious() {
-        print("previous")
-        
+    @objc func didPressPrevious() {        
         if currentStep > 0 {
             currentStep -= 1
-            delegate?.navigationBarDidChangeState(toStep: currentStep)
+            delegate?.navigationBarDidPressPrevious()
             update()
         }
     }
     
     @objc func didPressNext() {
-        print("next")
-        
         if currentStep < (pipeline.count - 1) {
             currentStep += 1
-            delegate?.navigationBarDidChangeState(toStep: currentStep)
+            delegate?.navigationBarDidPressNext()
             update()
         }
     }
 }
 
 protocol NavigationBarDelegate: class {
-    func navigationBarDidChangeState(toStep step: Int)
+    func navigationBarDidPressPrevious()
+    func navigationBarDidPressNext()
 }

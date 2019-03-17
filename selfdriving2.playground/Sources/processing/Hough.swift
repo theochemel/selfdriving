@@ -1,6 +1,6 @@
 import Foundation
 import AVFoundation
-
+import UIKit
 
 // MARK: Function for applying a hough transform to a binary edge detected image
 public func applyHoughTransform(toFrame frame: Frame, neighborhoodSize: Int, threshold: Int) -> [[Int]] {
@@ -85,4 +85,18 @@ public func applyHoughTransform(toFrame frame: Frame, neighborhoodSize: Int, thr
     }
     
     return lines
+}
+
+let performHoughTransform = { (params: [AlgorithmParameter], previousResult: Any) -> (UIView, Any) in
+    guard let previousFrame = previousResult as? Frame else { fatalError("performHoughTransform takes a Frame for previousResult, recieved other") }
+    
+    guard let neighborhoodSize = params.first(where: { $0.name == "Neighborhood Size" } ) else { fatalError("performHoughTransform takes a Neighborhood Size parameter") }
+    
+    guard let threshold = params.first(where: { $0.name == "Threshold" } ) else { fatalError("performHoughTransform takes a Threshold parameter") }
+    
+    let houghLines = applyHoughTransform(toFrame: previousFrame, neighborhoodSize: neighborhoodSize.value, threshold: threshold.value)
+    let houghLinesFrame = drawLines(onFrame: previousFrame, lines: houghLines)
+    let houghLinesImageView = UIImageView(image: UIImage(cgImage: houghLinesFrame.image))
+    
+    return (houghLinesImageView, houghLines)
 }

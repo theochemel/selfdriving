@@ -1,6 +1,9 @@
 import Foundation
 
-public func drawLines(onFrame frame: Frame, lines: [[Int]]) -> Frame {
+public func drawLines(onFrame startingFrame: Frame, lines: [[Int]]) -> Frame {
+    
+    let frame = Frame(fromImage: startingFrame.image)
+    
     for line in lines {
         let t = line[0]
         let p = line[1]
@@ -15,7 +18,7 @@ public func drawLines(onFrame frame: Frame, lines: [[Int]]) -> Frame {
             
             let yInt = Int(yValue)
             
-            setPixel(value: 0, data: frame.pointer, x: x, y: yInt, imageWidth: frame.image.width)
+            setPixel(value: 255, data: frame.pointer, x: x, y: yInt, imageWidth: frame.image.width)
         }
     }
     

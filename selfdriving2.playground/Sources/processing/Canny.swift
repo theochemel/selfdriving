@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import UIKit
 
 public func applyCanny(toFrame frame: Frame, lowThreshold: UInt8, highThreshold: UInt8) -> Frame {
     // MARK: Apply sobel operators in the x and y direction
@@ -121,4 +122,18 @@ public func applyCanny(toFrame frame: Frame, lowThreshold: UInt8, highThreshold:
     }
     
     return Frame(fromGrayscaleData: highThresholdData, bytesPerRow: frame.image.bytesPerRow)
+}
+
+public let performCannyEdgeDetection = { (params: [AlgorithmParameter], previousResult: Any) -> (UIView, Any) in
+    
+    guard let previousFrame = previousResult as? Frame else { fatalError("performCannyEdgeDetection takes a Frame for previousResult, recieved other") }
+    print(params)
+    
+    guard let lowThreshold = params.first(where: { $0.name == "Low Threshold" }) else { fatalError("performCannyEdgeDetection takes a Low Threshold parameter") }
+    guard let highThreshold = params.first(where: { $0.name == "High Threshold" }) else { fatalError("performCannyEdgeDetection takes a High Threshold parameter") }
+    
+    let cannyFrame = applyCanny(toFrame: previousFrame, lowThreshold: UInt8(lowThreshold.value), highThreshold: UInt8(highThreshold.value))
+    let cannyImageView = UIImageView(image: UIImage(cgImage: cannyFrame.image))
+    
+    return (cannyImageView, cannyFrame)
 }

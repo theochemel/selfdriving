@@ -26,9 +26,7 @@ public class Video {
         frameCount = Int((videoAsset.duration.seconds * Double(frameRate)))
     }
     
-    public func getFrame(_ index: Int) -> Frame {
-        var frame: Frame!
-        
+    public func getFrame(_ index: Int) -> Frame {        
         var image: CGImage!
         do {
             image = try imageGenerator.copyCGImage(at: CMTime(seconds: Double(index) / 25, preferredTimescale: CMTimeScale(25)), actualTime: nil)
@@ -38,4 +36,20 @@ public class Video {
         
         return Frame(fromImage: image)
     }
+}
+
+let videoFilePath = Bundle.main.url(forResource: "solidWhiteRight", withExtension: ".mp4")
+
+let video = Video(videoAt: videoFilePath!)
+
+public let performGetFrame = { (params: [AlgorithmParameter], previousResult: Any) -> (UIView, Any) in
+    guard let frameIndex = params.first(where: { $0.name == "Frame Index" }) else { fatalError("performGetFrame takes a Frame Index parameter") }
+    
+    print("Getting frame")
+    
+    let frame = video.getFrame(frameIndex.value)
+    
+    let frameImageView = UIImageView(image: UIImage(cgImage: frame.image))
+    
+    return (frameImageView, frame)
 }
