@@ -28,16 +28,12 @@ public class NavigationBar: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         
         backgroundColor = UIColor(red: 54/255, green: 54/255, blue: 54/255, alpha: 1.0)
-        
-//        layer.shadowColor = UIColor.black.cgColor
-//        layer.shadowOffset = CGSize(width: 0, height: 1)
-//        layer.shadowRadius = 1
-//        layer.shadowOpacity = 0.9
-        
+                
         previousButtonContainerView = {
             let view = UIView()
             view.backgroundColor = .clear
             view.translatesAutoresizingMaskIntoConstraints = false
+            view.alpha = currentStep > 0 ? 1.0 : 0.4
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.didPressPrevious))
             view.addGestureRecognizer(tapGestureRecognizer)

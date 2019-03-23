@@ -16,3 +16,8 @@ PlaygroundPage.current.liveView = liveView
 
 let appViewController = AppViewController()
 liveView.addSubview(appViewController.view)
+
+let splashscreenViewController = SplashscreenViewController()
+liveView.addSubview(splashscreenViewController.view)
+
+

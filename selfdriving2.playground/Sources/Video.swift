@@ -42,7 +42,7 @@ let videoFilePath = Bundle.main.url(forResource: "solidWhiteRight", withExtensio
 
 let video = Video(videoAt: videoFilePath!)
 
-public let performGetFrame = { (params: [AlgorithmParameter], previousResult: Any) -> (UIView, Any) in
+public let performGetFrame = { (params: [AlgorithmParameter], previousResult: Any, _: Frame) -> (UIView, Any) in
     guard let frameIndex = params.first(where: { $0.name == "Frame Index" }) else { fatalError("performGetFrame takes a Frame Index parameter") }
     
     print("Getting frame")
@@ -50,6 +50,8 @@ public let performGetFrame = { (params: [AlgorithmParameter], previousResult: An
     let frame = video.getFrame(frameIndex.value)
     
     let frameImageView = UIImageView(image: UIImage(cgImage: frame.image))
+    frameImageView.contentMode = .scaleAspectFit
+    frameImageView.backgroundColor = UIColor(red: 70/255, green: 70/255, blue: 70/255, alpha: 1.0)
     
     return (frameImageView, frame)
 }

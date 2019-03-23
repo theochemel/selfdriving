@@ -47,21 +47,6 @@ public class Sidebar: UIView {
             learnMoreButton.heightAnchor.constraint(equalToConstant: 28.0),
         ])
         
-        let dividerLineView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .black
-            view.translatesAutoresizingMaskIntoConstraints = false
-            return view
-        }()
-        addSubview(dividerLineView)
-        
-        NSLayoutConstraint.activate([
-            dividerLineView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            dividerLineView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            dividerLineView.topAnchor.constraint(equalTo: topAnchor),
-            dividerLineView.heightAnchor.constraint(equalToConstant: 1.0),
-        ])
-        
         if algorithmParameters.count > 0 {
             let parametersLabel: UILabel = {
                 let label = UILabel()
