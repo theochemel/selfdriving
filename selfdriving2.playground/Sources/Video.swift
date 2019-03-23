@@ -44,9 +44,7 @@ let video = Video(videoAt: videoFilePath!)
 
 public let performGetFrame = { (params: [AlgorithmParameter], previousResult: Any, _: Frame) -> (UIView, Any) in
     guard let frameIndex = params.first(where: { $0.name == "Frame Index" }) else { fatalError("performGetFrame takes a Frame Index parameter") }
-    
-    print("Getting frame")
-    
+        
     let frame = video.getFrame(frameIndex.value)
     
     let frameImageView = UIImageView(image: UIImage(cgImage: frame.image))

@@ -178,8 +178,7 @@ public class AppViewController: UIViewController, NavigationBarDelegate, Algorit
     }
     
     func executeCurrentStep() {
-//        Animation Start
-        print("Executing")
+
         isExecuting = true
         
         let input = (currentStep > 0) ? pipeline[currentStep - 1].result : 0

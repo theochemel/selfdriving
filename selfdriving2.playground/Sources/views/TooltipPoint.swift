@@ -5,22 +5,16 @@ class TooltipPoint: UIView {
     
     var descriptionContainer: UIView!
     
+    var isDisplayingDescriptionLabel = false
+    
+    var outerCircleView: UIView!
+    
     init(point: CGPoint, text: String) {
         super.init(frame: CGRect(origin: point, size: CGSize(width: 14, height: 14)))
         
         backgroundColor = .clear
-        
-        isUserInteractionEnabled = true
-        
-//
-//        let centerCircleLayer = CAShapeLayer()
-//        let centerCircle = UIBezierPath(ovalIn: CGRect(x: 2, y: 2, width: 6, height: 6))
-//        centerCircleLayer.path = centerCircle.cgPath
-//        centerCircleLayer.fillColor = UIColor.white.cgColor
-//
-//        button.layer.addSublayer(centerCircleLayer)
-//
-        let outerCircleView = UIView()
+
+        outerCircleView = UIView()
         outerCircleView.backgroundColor = .clear
         outerCircleView.frame = CGRect(x: 0, y: 0, width: 14, height: 14)
         let outerCircleLayer = CAShapeLayer()
@@ -33,10 +27,6 @@ class TooltipPoint: UIView {
         outerCircleView.layer.addSublayer(outerCircleLayer)
         
         addSubview(outerCircleView)
-        
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .allowUserInteraction, .autoreverse, .curveEaseInOut], animations: {
-            outerCircleView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        }, completion: nil)
         
         let button: UIButton = {
             let button = UIButton()
@@ -51,7 +41,7 @@ class TooltipPoint: UIView {
         
         descriptionContainer = {
             let view = UIView()
-            view.frame = CGRect(x: point.x < 380 ? -160: 24, y: 0, width: 150, height: 38)
+            view.frame = CGRect(x: point.x < 380 ? -150: 24, y: 0, width: 140, height: 38)
             view.backgroundColor = UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0)
             view.layer.cornerRadius = 10
             view.layer.borderColor = UIColor(red: 182/255, green: 182/255, blue: 182/255, alpha: 1.0).cgColor
@@ -63,7 +53,7 @@ class TooltipPoint: UIView {
         
         let descriptionLabel: UILabel = {
             let label = UILabel()
-            label.frame = descriptionContainer.bounds.insetBy(dx: 4, dy: 0)
+            label.frame = descriptionContainer.bounds.insetBy(dx: 2, dy: 0)
             label.text = text
             label.textAlignment = .center
             label.numberOfLines = 2
@@ -72,28 +62,6 @@ class TooltipPoint: UIView {
             return label
         }()
         descriptionContainer.addSubview(descriptionLabel)
-//
-        
-//        let pulseAnimation = CABasicAnimation(keyPath: "transform.scale")
-//        pulseAnimation.duration = 0.5
-//        pulseAnimation.fromValue = 1.0
-//        pulseAnimation.toValue = 1.2
-//        pulseAnimation.repeatCount = .infinity
-//        pulseAnimation.autoreverses = true
-//
-//        outerCircleLayer.add(pulseAnimation, forKey: "pulse")
-        
-//        let touchContainerView: UIView = {
-//            let view = UIView()
-//            view.frame = CGRect(x: -7, y: -7, width: 14, height: 14)
-//            view.backgroundColor = .clear
-//            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
-//            view.addGestureRecognizer(tapGestureRecognizer)
-//            return view
-//        }()
-//        addSubview(touchContainerView)
-        
-        
     }
     
     required init(coder: NSCoder) {
@@ -101,9 +69,14 @@ class TooltipPoint: UIView {
     }
     
     @objc func didTap() {
-        print("tap")
-        UIView.animate(withDuration: 0.2) {
-            self.descriptionContainer.alpha = 1.0
+        
+        if !isDisplayingDescriptionLabel {
+            UIView.animate(withDuration: 0.2) {
+                self.descriptionContainer.alpha = 1.0
+            }
+            isDisplayingDescriptionLabel = true
+        } else {
+            self.hideDescriptionLabel()
         }
     }
     
@@ -111,6 +84,13 @@ class TooltipPoint: UIView {
         UIView.animate(withDuration: 0.2) {
             self.descriptionContainer.alpha = 0.0
         }
+        isDisplayingDescriptionLabel = false
+    }
+    
+    func startPulseAnimation() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
+            self.outerCircleView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }, completion: nil)
     }
     
 }

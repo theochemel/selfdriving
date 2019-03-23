@@ -42,8 +42,6 @@ public class LineVisualization: UIView {
         
         frameImageView.transform = CGAffineTransform(scaleX: 560 / frameImageView.frame.width, y: 560 / frameImageView.frame.width)
         frameImageView.center = CGPoint(x: 280, y: 235)
-        
-        print(frameImageView.frame.width / CGFloat(frame.image.width))
     }
     
     required init(coder: NSCoder) {
