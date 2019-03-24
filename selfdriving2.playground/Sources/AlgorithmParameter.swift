@@ -6,11 +6,11 @@ public struct AlgorithmParameter {
     
     var value: Int
     
-    public init(name: String, description: String, min: Int, max: Int) {
+    public init(name: String, description: String, min: Int, max: Int, defaultValue: Int) {
         self.name = name
         self.description = description
         self.min = min
-        self.value = abs(max - min) / 2
+        self.value = defaultValue
         self.max = max
     }
 }

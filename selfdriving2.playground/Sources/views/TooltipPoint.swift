@@ -44,7 +44,7 @@ class TooltipPoint: UIView {
             view.frame = CGRect(x: point.x < 380 ? -150: 24, y: 0, width: 140, height: 38)
             view.backgroundColor = UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1.0)
             view.layer.cornerRadius = 10
-            view.layer.borderColor = UIColor(red: 182/255, green: 182/255, blue: 182/255, alpha: 1.0).cgColor
+            view.layer.borderColor = UIColor.white.cgColor//UIColor(red: 182/255, green: 182/255, blue: 182/255, alpha: 1.0).cgColor
             view.layer.borderWidth = 1
             view.alpha = 0.0
             return view
@@ -58,7 +58,7 @@ class TooltipPoint: UIView {
             label.textAlignment = .center
             label.numberOfLines = 2
             label.font = UIFont.systemFont(ofSize: 10.0, weight: .regular)
-            label.textColor = UIColor(red: 182/255, green: 182/255, blue: 182/255, alpha: 1.0)
+            label.textColor = .white //UIColor(red: 182/255, green: 182/255, blue: 182/255, alpha: 1.0)
             return label
         }()
         descriptionContainer.addSubview(descriptionLabel)

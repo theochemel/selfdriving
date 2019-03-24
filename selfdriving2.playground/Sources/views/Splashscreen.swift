@@ -8,7 +8,6 @@ public class SplashscreenViewController: UIViewController {
         TooltipPoint(point: CGPoint(x: 584, y: 91), text: "Tune each algorithm using the sliders on the right."),
         TooltipPoint(point: CGPoint(x: 164, y: 171), text: "The result of each step will display on the left."),
         TooltipPoint(point: CGPoint(x: 584, y: 151), text: "A description of each algorithm is on the right"),
-        TooltipPoint(point: CGPoint(x: 584, y: 241), text: "Click here to open a web page with more info."),
     ]
     
     var continueButtonTrailingConstraint: NSLayoutConstraint!
@@ -151,7 +150,7 @@ public class SplashscreenViewController: UIViewController {
                 sender.setTitle("Get Started", for: .normal)
             }, completion: nil)
             
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: [.curveEaseInOut], animations: {
+            UIView.animate(withDuration: 0.2, delay: 0.1, options: [.curveEaseInOut], animations: {
                 self.continueButtonTrailingConstraint.constant = -288.0
                 self.view.layoutIfNeeded()
             }, completion: nil)

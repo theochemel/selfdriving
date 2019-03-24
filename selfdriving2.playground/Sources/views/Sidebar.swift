@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 
 public class Sidebar: UIView {
-    
-    public init(withAlgorithmParameters algorithmParameters: [AlgorithmParameter], description: String, delegate: AlgorithmParameterControlDelegate) {
+        
+    public init(withAlgorithmParameters algorithmParameters: [AlgorithmParameter], name: String, description: String, shortDescription: String, parameterDelegate: AlgorithmParameterControlDelegate) {
         super.init(frame: .zero)
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -27,45 +27,52 @@ public class Sidebar: UIView {
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
         ])
         
-        let learnMoreButton: UIButton = {
-            let button = UIButton()
-            button.setTitle("Learn More", for: .normal)
-            button.setTitleColor(UIColor.white, for: .normal)
-            button.backgroundColor = UIColor(red: 0/255, green: 122/255, blue: 255/255, alpha: 1.0)
-            button.layer.cornerRadius = 5
-            button.addTarget(self, action: #selector(didPressLearnMoreButton), for: .touchUpInside)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            return button
+        let nameLabel: UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.font = UIFont.systemFont(ofSize: 16.0)
+            label.text = name
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
         }()
+        stackView.addArrangedSubview(nameLabel)
         
-        addSubview(learnMoreButton)
+//        NSLayoutConstraint.activate([
+//            nameLabel.heightAnchor.constraint(equalToConstant: 20.0),
+//        ])
+        
+        let shortDescriptionLabel: UILabel = {
+            let label = UILabel()
+            label.text = shortDescription
+            label.textColor = UIColor.lightGray
+            label.font = UIFont.systemFont(ofSize: 8.0)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+        stackView.addArrangedSubview(shortDescriptionLabel)
+        
+//        NSLayoutConstraint.activate([
+//            shortDescriptionLabel.heightAnchor.constraint(equalToConstant: 10.0),
+//        ])
+        
+        let postShortDescriptionDividerLine: UIView = {
+            let view = UIView()
+            view.backgroundColor = UIColor.lightGray
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        stackView.addArrangedSubview(postShortDescriptionDividerLine)
         
         NSLayoutConstraint.activate([
-            learnMoreButton.widthAnchor.constraint(equalToConstant: 184.0),
-            learnMoreButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            learnMoreButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
-            learnMoreButton.heightAnchor.constraint(equalToConstant: 28.0),
+            postShortDescriptionDividerLine.heightAnchor.constraint(equalToConstant: 0.5),
         ])
         
+        
         if algorithmParameters.count > 0 {
-            let parametersLabel: UILabel = {
-                let label = UILabel()
-                label.textColor = .white
-                label.font = UIFont.systemFont(ofSize: 16.0)
-                label.text = "Parameters:"
-                label.translatesAutoresizingMaskIntoConstraints = false
-                return label
-            }()
-            
-            stackView.addArrangedSubview(parametersLabel)
-            
-            NSLayoutConstraint.activate([
-                parametersLabel.heightAnchor.constraint(equalToConstant: 20.0)
-            ])
         
             for algorithmParameter in algorithmParameters {
                 let algorithmParameterControl = AlgorithmParameterControl(forAlgorithmParameter: algorithmParameter)
-                algorithmParameterControl.delegate = delegate
+                algorithmParameterControl.delegate = parameterDelegate
                 algorithmParameterControl.setContentHuggingPriority(.required, for: .vertical)
                 stackView.addArrangedSubview(algorithmParameterControl)
                 
@@ -73,6 +80,18 @@ public class Sidebar: UIView {
                     algorithmParameterControl.heightAnchor.constraint(equalToConstant: 34.0),
                 ])
             }
+            
+            let postParamsDividerLine: UIView = {
+                let view = UIView()
+                view.backgroundColor = UIColor.lightGray
+                view.translatesAutoresizingMaskIntoConstraints = false
+                return view
+            }()
+            stackView.addArrangedSubview(postParamsDividerLine)
+            
+            NSLayoutConstraint.activate([
+                postParamsDividerLine.heightAnchor.constraint(equalToConstant: 0.5),
+            ])
         }
         
         let descriptionLabel: UILabel = {
@@ -92,9 +111,5 @@ public class Sidebar: UIView {
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func didPressLearnMoreButton() {
-        print("Learn more button pressed")
     }
 }

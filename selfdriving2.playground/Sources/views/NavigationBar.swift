@@ -19,6 +19,8 @@ public class NavigationBar: UIView {
     
     var nextButtonContainerView: UIView!
     
+    var isNavigationEnabled = true
+    
     public init(forPipeline pipeline: [PipelineElement]) {
         
         self.pipeline = pipeline
@@ -203,7 +205,8 @@ public class NavigationBar: UIView {
         nextButtonContainerView.alpha = currentStep < (pipeline.count - 1) ? 1.0 : 0.4
     }
     
-    @objc func didPressPrevious() {        
+    @objc func didPressPrevious() {
+        guard isNavigationEnabled else { return }
         if currentStep > 0 {
             currentStep -= 1
             delegate?.navigationBarDidPressPrevious()
@@ -212,11 +215,20 @@ public class NavigationBar: UIView {
     }
     
     @objc func didPressNext() {
+        guard isNavigationEnabled else { return }
         if currentStep < (pipeline.count - 1) {
             currentStep += 1
             delegate?.navigationBarDidPressNext()
             update()
         }
+    }
+    
+    func enableNavigation() {
+        isNavigationEnabled = true
+    }
+    
+    func disableNavigation() {
+        isNavigationEnabled = false
     }
 }
 
