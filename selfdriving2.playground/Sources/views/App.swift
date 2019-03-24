@@ -37,7 +37,7 @@ public class AppViewController: UIViewController, NavigationBarDelegate, Algorit
                         ],
                         execute: performGaussianBlur),
         PipelineElement(name: "Canny Edge Detection",
-                        description: "Canny edge detection is a multistep process for detecting edges in an image. It takes a grayscale image as input, and returns a binary image. Pixels are either white, constituting an edge, or black. To learn more about how Canny edge detection is implemented, be sure to check out 'Canny.swift' in the 'processing' source folder, and click the button below.",
+                        description: "Canny edge detection is a multistep process for detecting edges in an image. It takes a grayscale image as input, and returns a binary image. Pixels are either white, constituting an edge, or black. To learn more about how Canny edge detection is implemented, be sure to check out 'Canny.swift' in the 'processing' source folder.",
                         shortDescription: "Finds edges",
                         shouldDisplayLoadingAnimation: true,
                         algorithmParameters: [
@@ -46,7 +46,7 @@ public class AppViewController: UIViewController, NavigationBarDelegate, Algorit
                         ],
                         execute: performCannyEdgeDetection),
         PipelineElement(name: "Hough Transform",
-                        description: "The Hough Transform is a process for finding the mathmatical representation of lines in an image. It doesn't return an image like the previous steps, but an array of lines defined in polar coordinates. Those lines have been plotted in blue on the left. The Hough Transform is quite involved, but the page linked to by the 'Learn More' button does a good job of explaining it.",
+                        description: "The Hough Transform is a process for finding the mathmatical representation of lines in an image. It doesn't return an image like the previous steps, but an array of lines defined in polar coordinates. Those lines have been plotted in blue on the left. The Hough Transform is quite involved, but works great when properly implemented and tuned.",
                         shortDescription: "Converts edges to lines",
                         shouldDisplayLoadingAnimation: false,
                         algorithmParameters: [
